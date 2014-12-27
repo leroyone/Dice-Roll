@@ -33,42 +33,38 @@ class theApp(Tkinter.Tk):
         self.button = Tkinter.Button(self, text='ROLL!', font=70, command=self.onButtonClick)
         self.button.grid(row=2, column=0, pady=15, columnspan=4)
         #### fourth line
-        ''' 
-        photo0 = Tkinter.PhotoImage(file="images/5.gif")
-        label = Tkinter.Label(self, image=photo0)
-        label.grid(row=3, column=0, columnspan=2, pady=20)
-        label.image = photo0
+ 
+        label0 = Tkinter.Label(self, image="")
+        label0.grid(row=3, column=0, columnspan=2, pady=20)
+        label0.image = ""
         
-        photo1 = Tkinter.PhotoImage(file="images/1.gif")
-        label = Tkinter.Label(self, image=photo1)
-        label.grid(row=3, column=1, columnspan=4)
-        label.image = photo1
+        label1 = Tkinter.Label(self, image="")
+        label1.grid(row=3, column=1, columnspan=4)
+        label1.image = ""
         
-        photo2 = Tkinter.PhotoImage(file="images/1.gif")
-        label = Tkinter.Label(self, image=photo2)
-        label.grid(row=3, column=3, columnspan=1)
-        label.image = photo2
+        label2 = Tkinter.Label(self, image="")
+        label2.grid(row=3, column=3, columnspan=1)
+        label2.image = ""
         #### fifth line
-        photo3 = Tkinter.PhotoImage(file="images/5.gif")
-        label = Tkinter.Label(self, image=photo3)
-        label.grid(row=4, column=0, columnspan=2, pady=20)
-        label.image = photo3
+        label3 = Tkinter.Label(self, image="")
+        label3.grid(row=4, column=0, columnspan=2, pady=20)
+        label3.image = ""
 
-        photo4 = Tkinter.PhotoImage(file="images/1.gif")
-        label = Tkinter.Label(self, image=photo4)
-        label.grid(row=4, column=1, columnspan=4)
-        label.image = photo4
+        label4 = Tkinter.Label(self, image="")
+        label4.grid(row=4, column=1, columnspan=4)
+        label4.image = ""
 
-        photo5 = Tkinter.PhotoImage(file="images/1.gif")
-        label = Tkinter.Label(self, image=photo5)
-        label.grid(row=4, column=3, columnspan=1)
-        label.image = photo5
-        '''
+        label5 = Tkinter.Label(self, image="")
+        label5.grid(row=4, column=3, columnspan=1)
+        label5.image = ""
+
+        self.labelList = [label0, label1, label2, label3, label4, label5]
         #### some other gubbins
         self.grid_columnconfigure(0, weight=1)
         self.resizable(False,False)
         self.button.focus_set()
 
+    ''' 
     def buttonything(self, howMany):
         for each in range(howMany):
             if each%3 == 2:
@@ -79,18 +75,30 @@ class theApp(Tkinter.Tk):
                 span = (each%3+1)*2
             x = random.randint(1,6)
             photo = Tkinter.PhotoImage(file="images/" + str(x) + ".gif")
-            label = Tkinter.Label(self, image=photo)
-            label.grid(row=each/3+3, column=col, columnspan=span, pady=20)
-            label.image = photo
+            labelList[howMany] = Tkinter.Label(self, image=photo)
+            labelList[howMany].grid(row=each/3+3, column=col, columnspan=span, pady=20)
+            labelList[howMany].image = photo
+    '''
+    def buttonything(self, howMany):
+        for each in range(howMany):
+            x = random.randint(1,6)
+            photo = Tkinter.PhotoImage(file="images/" + str(x) + ".gif")
+            self.labelList[each].configure(image = photo)
+            self.labelList[each].image = photo
+        for every in range(howMany,6):
+            self.labelList[every].configure(image = "")
+            self.labelList[every].image = ""
 
     def onButtonClick(self):
         try:
             self.buttonything(int(self.entryVariable.get()))
             self.button.focus_set()
         except:
+            for each in self.labelList:
+                each.configure(image = "")
+                each.image = ""
             notNumber = Tkinter.StringVar()
-            label = Tkinter.Label(self, textvariable=notNumber, anchor='e')
-            label.grid(row=3, column=0, columnspan=4)
+            self.labelList[1].configure(textvariable=notNumber)
             notNumber.set('That is not a number!')
             self.entry.focus_set()
             self.entry.selection_range(0, Tkinter.END)
