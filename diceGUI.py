@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import Tkinter
+import random
 
 class theApp(Tkinter.Tk):
     def __init__(self, parent):
@@ -69,17 +70,30 @@ class theApp(Tkinter.Tk):
         self.button.focus_set()
 
     def buttonything(self, howMany):
-        try:
-            homMany = int(howMany)
-        except:
-            pass
+        for each in range(howMany):
+            if each%3 == 2:
+                col = 3
+                span = 1
+            else:
+                col = each%3
+                span = (each%3+1)*2
+            x = random.randint(1,6)
+            photo = Tkinter.PhotoImage(file="images/" + str(x) + ".gif")
+            label = Tkinter.Label(self, image=photo)
+            label.grid(row=each/3+3, column=col, columnspan=span, pady=20)
+            label.image = photo
 
     def onButtonClick(self):
         try:
-            int(self.entryVariable.get())
+            self.buttonything(int(self.entryVariable.get()))
             self.button.focus_set()
         except:
-            pass
+            notNumber = Tkinter.StringVar()
+            label = Tkinter.Label(self, textvariable=notNumber, anchor='e')
+            label.grid(row=3, column=0, columnspan=4)
+            notNumber.set('That is not a number!')
+            self.entry.focus_set()
+            self.entry.selection_range(0, Tkinter.END)
 
     def onPressEnter(self, event):
         #self.labelVariable.set(self.entryVariable.get()+'(You pressed enter!)')
